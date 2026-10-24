@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Focus Mode - Site Blocked</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 3px solid rgba(239, 68, 68, 0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 32px;
+      font-size: 64px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .blocked-site {
+      font-size: 24px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+      word-break: break-all;
+    }
+
+    .blocked-site span {
+      background: rgba(239, 68, 68, 0.3);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .message {
+      font-size: 18px;
+      margin-bottom: 32px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .timer-box {
+      background: rgba(34, 197, 94, 0.2);
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .timer-label {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .timer {
+      font-size: 48px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .motivation {
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 16px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">⛔</div>
+    
+    <h1>Focus Mode Active</h1>
+    
+    <div class="blocked-site">
+      Trying to access <span id="blockedUrl">blocked site</span>
+    </div>
+    
+    <p class="message">
+      This site is blocked during your focus session.<br>
+      Stay focused on your goals! 🎯
+    </p>
+
+    <div class="timer-box">
+      <div class="timer-label">Time Remaining</div>
+      <div class="timer" id="timer">--:--</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="todayMinutes">0</div>
+        <div class="stat-label">Minutes Today</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="totalSessions">0</div>
+        <div class="stat-label">Total Sessions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="streak">0</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn btn-primary" id="goBackBtn">
+        ← Go Back & Stay Focused
+      </button>
+      <button class="btn btn-secondary" id="endSessionBtn">
+        End Session
+      </button>
+    </div>
+
+    <div class="motivation">
+      💡 "Success is the sum of small efforts repeated day in and day out."
+    </div>
+  </div>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

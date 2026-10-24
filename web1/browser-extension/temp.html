@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Focus Mode Icon Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .emoji-input {
+      font-size: 48px;
+      text-align: center;
+      width: 100px;
+      height: 100px;
+      padding: 0;
+    }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .preview-item {
+      text-align: center;
+      padding: 20px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .preview-item h3 {
+      margin-bottom: 10px;
+      color: #667eea;
+      font-size: 14px;
+    }
+
+    canvas {
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+
+    .download-section {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f0f4ff;
+      border-radius: 12px;
+      border: 2px solid #667eea;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .emoji-presets {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .emoji-preset {
+      font-size: 32px;
+      padding: 15px;
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .emoji-preset:hover {
+      background: #667eea;
+      border-color: #667eea;
+      transform: scale(1.1);
+    }
+
+    .info-box {
+      background: #fef3c7;
+      border: 2px solid #fbbf24;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .info-box strong {
+      color: #92400e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Focus Mode Icon Generator</h1>
+    <p class="subtitle">Create browser extension icons in seconds!</p>
+
+    <div class="info-box">
+      <strong>Quick Guide:</strong> Pick an emoji below or enter your own, customize the background, then download all 3 icon sizes. Save them in your <code>browser-extension/icons/</code> folder.
+    </div>
+
+    <div class="input-group">
+      <label>1. Choose Your Icon Emoji</label>
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <input 
+          type="text" 
+          id="emojiInput" 
+          class="emoji-input" 
+          value="🎯" 
+          maxlength="2"
+          placeholder="🎯"
+        >
+        <div style="flex: 1;">
+          <p style="color: #666; margin-bottom: 10px;">Or pick a preset:</p>
+          <div class="emoji-presets">
+            <div class="emoji-preset" onclick="setEmoji('🎯')">🎯</div>
+            <div class="emoji-preset" onclick="setEmoji('🔥')">🔥</div>
+            <div class="emoji-preset" onclick="setEmoji('⏱️')">⏱️</div>
+            <div class="emoji-preset" onclick="setEmoji('💪')">💪</div>
+            <div class="emoji-preset" onclick="setEmoji('🚀')">🚀</div>
+            <div class="emoji-preset" onclick="setEmoji('📚')">📚</div>
+            <div class="emoji-preset" onclick="setEmoji('✨')">✨</div>
+            <div class="emoji-preset" onclick="setEmoji('⚡')">⚡</div>
+            <div class="emoji-preset" onclick="setEmoji('🧠')">🧠</div>
+            <div class="emoji-preset" onclick="setEmoji('🎓')">🎓</div>
+            <div class="emoji-preset" onclick="setEmoji('💎')">💎</div>
+            <div class="emoji-preset" onclick="setEmoji('🌟')">🌟</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>2. Background Style</label>
+      <select id="bgStyle" onchange="generateIcons()">
+        <option value="gradient">Purple Gradient (Match Web App)</option>
+        <option value="solid-purple">Solid Purple</option>
+        <option value="solid-blue">Solid Blue</option>
+        <option value="solid-green">Solid Green</option>
+        <option value="white">White Background</option>
+        <option value="transparent">Transparent</option>
+      </select>
+    </div>
+
+    <div class="preview-grid">
+      <div class="preview-item">
+        <h3>16x16 (Toolbar)</h3>
+        <canvas id="canvas16" width="16" height="16"></canvas>
+      </div>
+      <div class="preview-item">
+        <h3>48x48 (Extensions Page)</h3>
+        <canvas id="canvas48" width="48" height="48"></canvas>
+      </div>
+      <div class="preview-item">
+        <h3>128x128 (Chrome Store)</h3>
+        <canvas id="canvas128" width="128" height="128"></canvas>
+      </div>
+    </div>
+
+    <div class="download-section">
+      <h3 style="margin-bottom: 10px; color: #667eea;">📥 Download Your Icons</h3>
+      <p style="color: #666; margin-bottom: 15px;">Click each button to download. Save all 3 files in your <code>browser-extension/icons/</code> folder.</p>
+      <div class="button-group">
+        <button onclick="downloadIcon(16)">Download 16x16</button>
+        <button onclick="downloadIcon(48)">Download 48x48</button>
+        <button onclick="downloadIcon(128)">Download 128x128</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function setEmoji(emoji) {
+      document.getElementById('emojiInput').value = emoji;
+      generateIcons();
+    }
+
+    function generateIcons() {
+      const emoji = document.getElementById('emojiInput').value || '🎯';
+      const bgStyle = document.getElementById('bgStyle').value;
+      
+      [16, 48, 128].forEach(size => {
+        const canvas = document.getElementById(`canvas${size}`);
+        const ctx = canvas.getContext('2d');
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, size, size);
+        
+        // Draw background
+        if (bgStyle === 'gradient') {
+          const gradient = ctx.createLinearGradient(0, 0, size, size);
+          gradient.addColorStop(0, '#667eea');
+          gradient.addColorStop(1, '#764ba2');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(0, 0, size, size);
+        } else if (bgStyle === 'solid-purple') {
+          ctx.fillStyle = '#667eea';
+          ctx.fillRect(0, 0, size, size);
+        } else if (bgStyle === 'solid-blue') {
+          ctx.fillStyle = '#3b82f6';
+          ctx.fillRect(0, 0, size, size);
+        } else if (bgStyle === 'solid-green') {
+          ctx.fillStyle = '#22c55e';
+          ctx.fillRect(0, 0, size, size);
+        } else if (bgStyle === 'white') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, size, size);
+          // Add border for white background
+          ctx.strokeStyle = '#e5e7eb';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(0, 0, size, size);
+        }
+        // transparent = no background
+        
+        // Draw emoji
+        ctx.font = `${size * 0.65}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = bgStyle === 'white' ? '#667eea' : '#ffffff';
+        ctx.fillText(emoji, size / 2, size / 2);
+      });
+    }
+
+    function downloadIcon(size) {
+      const canvas = document.getElementById(`canvas${size}`);
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Initial generation
+    document.getElementById('emojiInput').addEventListener('input', generateIcons);
+    generateIcons();
+  </script>
+</body>
+</html>

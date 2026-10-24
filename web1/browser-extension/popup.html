@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 360px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .status {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .status.active {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .timer-display {
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      margin: 16px 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #22c55e;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .duration-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .duration-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .duration-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .duration-btn.selected {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background: #fff;
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .blocked-sites {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .blocked-sites h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .site-list {
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .site-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .remove-btn {
+      background: rgba(239, 68, 68, 0.3);
+      border: none;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .remove-btn:hover {
+      background: rgba(239, 68, 68, 0.5);
+    }
+
+    .add-site {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .add-site input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .add-site input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .add-site button {
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎯 Focus Mode</h1>
+    <p>Block distractions, boost productivity</p>
+  </div>
+
+  <!-- Inactive State -->
+  <div id="inactiveView">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalSessions">0</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalMinutes">0m</div>
+        <div class="stat-label">Total Time</div>
+      </div>
+    </div>
+
+    <div class="status">
+      <p style="text-align: center; font-size: 14px; opacity: 0.9;">Choose focus duration:</p>
+      <div class="duration-buttons">
+        <button class="duration-btn selected" data-duration="15">15m</button>
+        <button class="duration-btn" data-duration="25">25m</button>
+        <button class="duration-btn" data-duration="45">45m</button>
+        <button class="duration-btn" data-duration="60">60m</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="startBtn">Start Focus Session</button>
+  </div>
+
+  <!-- Active State -->
+  <div id="activeView" class="hidden">
+    <div class="status active">
+      <div style="text-align: center; font-size: 14px; opacity: 0.9; margin-bottom: 8px;">
+        Focus Mode Active 🔥
+      </div>
+      <div class="timer-display" id="timerDisplay">25:00</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-secondary" id="endBtn">End Session</button>
+  </div>
+
+  <!-- Blocked Sites Manager -->
+  <div class="blocked-sites">
+    <h3>🚫 Blocked Sites</h3>
+    <div class="site-list" id="siteList"></div>
+    <div class="add-site">
+      <input type="text" id="newSiteInput" placeholder="e.g., reddit.com">
+      <button id="addSiteBtn">Add</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
